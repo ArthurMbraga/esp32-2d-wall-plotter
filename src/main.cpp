@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <Stepper.h>
+#include <math.h>
 
 //   // change this to fit the number of steps per revolution
 // // // for your motor
@@ -36,6 +37,19 @@ const int ctr_d = 27;
 const int t = 2050;
 const int stepsPerRevolution = 2052;
 int currentStep = 0;
+
+
+typedef struct Point {
+    int x;
+    int y;
+} Point;
+
+typedef struct Lengths {
+    int a;
+    int b;
+    Lengths(int l1, int l2) : a(l1), b(l2) {}
+    Lengths(Point p) : a(sqrt(p.x* p.x + p.y * p.y)), b(sqrt((L - p.x)* (L - p.x) + (p.y * p.y))) {}
+} Lenghts;
 
 void oneRevolution(float angle)
 {
