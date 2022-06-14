@@ -9,7 +9,7 @@ class Stepper
 private:
   static const int STEPS_PER_REVOLUTION = 2052;
   static const int STEP_DELAY = 2050;
-  static const int PULLEY_RADIUS = 1.6; // Em cm 
+  static const int PULLEY_RADIUS = 1.6; // Em cm
 
   const int PIN_A;
   const int PIN_B;
@@ -33,7 +33,7 @@ private:
 
 public:
   Stepper(int pinA, int pinB, int pinC, int pinD);
-  void move(double length);
+  int move(double length);
   void update();
 };
 

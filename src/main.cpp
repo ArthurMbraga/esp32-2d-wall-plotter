@@ -1,59 +1,61 @@
 #include "Stepper.h"
 #include <Arduino.h>
 #include <math.h>
-
-const int ctr_a = 12;
-const int ctr_b = 13;
-const int ctr_c = 14;
-const int ctr_d = 27;
-const int t = 2050;
-const int stepsPerRevolution = 2052;
-int currentStep = 0;
+#include "Canvas.h"
 
 Stepper *motor1;
 Stepper *motor2;
-#define H 10
-#define L 10
+Canvas *canvas;
 
-typedef struct Point {
-    double x;
-    double y;
-} Point;
+int countTarget = 0;
+int currentCount = 0;
 
-typedef struct Lengths {
-    double a;
-    double b;
-    Lengths(int l1, int l2) : a(l1), b(l2) {}
-    Lengths(Point p) : a(sqrt(p.x* p.x + (H - p.y) * (H - p.y))), b(sqrt((L - p.x)* (L - p.x) + (H - p.y) * (H - p.y))) {}
-} Lenghts;
-
-void oneRevolution(float angle)
+bool shouldChangeMovement()
 {
-  const int numberOfSteps = stepsPerRevolution * abs(angle) / 360;
-  for (int i = 0; i < numberOfSteps; i++)
+  if (currentCount >= countTarget)
   {
-    switch (currentStep)
+    currentCount = 0;
+    return true;
+  }
+  else
+  {
+    currentCount++;
+    return false;
+  }
+}
+
+void updateCanvas()
+{
+  if (shouldChangeMovement())
+  {
+
+    double move[2] = {0, 0};
+    bool hasMove = canvas->nextMove(move);
+
+    if (hasMove)
     {
-    case 0: // AB
-      digitalWrite(ctr_a, LOW);
-      digitalWrite(ctr_b, LOW);
-      digitalWrite(ctr_c, HIGH);
-      digitalWrite(ctr_d, HIGH);
-      break;
+      int time1 = motor1->move(move[0]);
+      int time2 = motor2->move(move[1]);
+
+      countTarget = time1 > time2 ? time1 : time2;
+    }
+  }
+}
 
 void setup()
 {
   motor1 = new Stepper(13, 12, 14, 27);
   motor2 = new Stepper(15, 2, 4, 5);
 
-  motor1->move(100);
-  motor2->move(100);
+  canvas = new Canvas(50, 50);
+  canvas->draw({5, 2});
 }
 
 void loop()
 {
+
   motor1->update();
   motor2->update();
-
+  updateCanvas();
   delayMicroseconds(1);
 }

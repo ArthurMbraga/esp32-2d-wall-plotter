@@ -19,7 +19,7 @@ double Stepper::length2deg(double length)
   return 360 * length / (2 * PI * PULLEY_RADIUS);
 }
 
-void Stepper::move(double length)
+int Stepper::move(double length)
 {
   double angle = length2deg(length);
 
@@ -27,6 +27,8 @@ void Stepper::move(double length)
   direction = length > 0 ? CLOCKWISE : COUNTER_CLOCKWISE;
   stepCount = 0;
   stepIntervalCount = STEP_DELAY;
+
+  return stepCountTarget * STEP_DELAY;
 }
 
 bool Stepper::shouldMove()
