@@ -2,7 +2,7 @@
 #define Canvas_h
 
 
-#define CANVA_HEIGHT 77
+#define CANVA_HEIGHT 70
 #define CANVA_WIDTH 90
 
 // #define CANVA_RES 0.0141421

@@ -23,7 +23,7 @@ int Stepper::move(double length)
 {
   double angle = length2deg(length);
 
-  stepCountTarget = deg2step(angle);
+  stepCountTarget = deg2step(180);
   direction = length > 0 ? COUNTER_CLOCKWISE : CLOCKWISE;
   stepCount = 0;
   stepIntervalCount = STEP_DELAY;

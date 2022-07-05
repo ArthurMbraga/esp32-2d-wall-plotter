@@ -8,8 +8,8 @@ class Stepper
 {
 private:
   static const int STEPS_PER_REVOLUTION = 2052;
-  static const int STEP_DELAY = 2050;
-  static const int PULLEY_RADIUS = 1.6; // Em cm
+  static const int STEP_DELAY = 250;   // 2050;
+  static const int PULLEY_RADIUS = 1.6; // 1.6; // Em cm
 
   const int PIN_A;
   const int PIN_B;
