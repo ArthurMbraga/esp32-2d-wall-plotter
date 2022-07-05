@@ -19,12 +19,19 @@ double Stepper::length2deg(double length)
   return 360 * abs(length) / (2 * PI * PULLEY_RADIUS);
 }
 
-int Stepper::move(double length)
+void Stepper::move(double length)
 {
   double angle = length2deg(length);
-
-  stepCountTarget = deg2step(180);
+  stepCountTarget = deg2step(angle);
   direction = length > 0 ? COUNTER_CLOCKWISE : CLOCKWISE;
+  stepCount = 0;
+  stepIntervalCount = STEP_DELAY;
+}
+
+int Stepper::rotate(double angle)
+{
+  stepCountTarget = deg2step(angle);
+  direction = angle > 0 ? COUNTER_CLOCKWISE : CLOCKWISE;
   stepCount = 0;
   stepIntervalCount = STEP_DELAY;
 
@@ -38,7 +45,7 @@ bool Stepper::shouldMove()
 
 bool Stepper::shouldChangeCoilCombination()
 {
-  if (stepIntervalCount >= STEP_DELAY)
+  if (stepIntervalCount >= STEP_DELAY / speed)
   {
     stepIntervalCount = 0;
     return true;
@@ -80,7 +87,7 @@ void Stepper::changeCoilCombination()
     digitalWrite(PIN_D, LOW);
     break;
   }
-  currentCoilCombination += direction;
+  currentCoilCombination += direction * directionInverter;
 
   if (currentCoilCombination > 3)
     currentCoilCombination = 0;
@@ -95,4 +102,20 @@ void Stepper::update()
     stepCount++;
     changeCoilCombination();
   }
+}
+
+void Stepper::invertRotation()
+{
+  directionInverter = -directionInverter;
+}
+
+void Stepper::setSpeed(double speed)
+{
+  this->speed = speed;
+}
+
+int Stepper::getTimeToMove(double length)
+{
+  int numberOfSteps = deg2step(length2deg(length));
+  return numberOfSteps * STEP_DELAY;
 }

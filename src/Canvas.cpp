@@ -8,8 +8,8 @@ double squared(double x)
 
 Lengths pointToLenghts(Point p)
 {
-	double a = sqrt(squared(p.x) + squared(CANVA_HEIGHT - p.y));
-	double b = sqrt(squared(CANVA_WIDTH - p.x) + squared(CANVA_HEIGHT - p.y));
+	double a = sqrt(squared(p.x) + squared(p.y));
+	double b = sqrt(squared(CANVA_WIDTH - p.x) + squared(p.y));
 
 	return Lengths{a, b};
 }
@@ -25,15 +25,6 @@ void Canvas::draw(Point target)
 	double diffX = distX / moves;
 	double diffY = distY / moves;
 
-	// Serial.print("distX: ");
-	// Serial.println(distX);
-	// Serial.print("distY: ");
-	// Serial.println(distY);
-	// Serial.print("diffX: ");
-	// Serial.println(diffX);
-	// Serial.print("diffY: ");
-	// Serial.println(diffY);
-
 	size = moves;
 	it = 0;
 
@@ -44,14 +35,14 @@ void Canvas::draw(Point target)
 		Point p = {position.x + diffX * i, position.y + diffY * i};
 		Lengths newLen = pointToLenghts(p);
 
-		m1[i] = newLen.a - lastLen.a;
-		m2[i] = newLen.b - lastLen.b;
-		// Serial.print("M1: ");
-		// Serial.println(m1[i]);
-		// Serial.print("M2: ");
-		// Serial.println(m2[i]);
+		m1[i - 1] = newLen.a - lastLen.a;
+		m2[i - 1] = newLen.b - lastLen.b;
+
 		lastLen = newLen;
 	}
+
+	position.x = target.x;
+	position.y = target.y;
 }
 
 bool Canvas::nextMove(double move[2])

@@ -8,8 +8,8 @@ class Stepper
 {
 private:
   static const int STEPS_PER_REVOLUTION = 2052;
-  static const int STEP_DELAY = 250;   // 2050;
-  static const int PULLEY_RADIUS = 1.6; // 1.6; // Em cm
+  static const int STEP_DELAY = 250;
+  static constexpr const double PULLEY_RADIUS = 0.6; // 1.6; // Em cm
 
   const int PIN_A;
   const int PIN_B;
@@ -24,6 +24,10 @@ private:
   // 1 = CLOCKWISE, -1 = COUNTER_CLOCKWISE
   int direction = 0;
 
+  // 1 = DEFAULT, -1 = INVERTED_ROTATION
+  int directionInverter = 1;
+  double speed = 1;
+
 private:
   bool shouldMove();
   bool shouldChangeCoilCombination();
@@ -33,8 +37,13 @@ private:
 
 public:
   Stepper(int pinA, int pinB, int pinC, int pinD);
-  int move(double length);
+  void invertRotation();
+  // speed must be between 0 and 1
+  void setSpeed(double speed);
+  void move(double length);
+  int rotate(double angle);
   void update();
+  int getTimeToMove(double length);
 };
 
 #endif
