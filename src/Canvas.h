@@ -2,10 +2,11 @@
 #define Canvas_h
 
 
-#define CANVA_HEIGHT 10
-#define CANVA_WIDTH 10
+#define CANVA_HEIGHT 77
+#define CANVA_WIDTH 90
 
-#define CANVA_RES 0.0141421
+// #define CANVA_RES 0.0141421
+#define CANVA_RES 1.41421
 #define CANVA_MAX_SIZE 1000
 
 typedef struct Point

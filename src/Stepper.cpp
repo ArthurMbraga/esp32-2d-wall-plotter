@@ -11,12 +11,12 @@ Stepper::Stepper(int pinA, int pinB, int pinC, int pinD) : PIN_A(pinA), PIN_B(pi
 
 int Stepper::deg2step(double angle)
 {
-  return angle * STEPS_PER_REVOLUTION / 360;
+  return abs(angle) * STEPS_PER_REVOLUTION / 360;
 }
 
 double Stepper::length2deg(double length)
 {
-  return 360 * length / (2 * PI * PULLEY_RADIUS);
+  return 360 * abs(length) / (2 * PI * PULLEY_RADIUS);
 }
 
 int Stepper::move(double length)
@@ -24,7 +24,7 @@ int Stepper::move(double length)
   double angle = length2deg(length);
 
   stepCountTarget = deg2step(angle);
-  direction = length > 0 ? CLOCKWISE : COUNTER_CLOCKWISE;
+  direction = length > 0 ? COUNTER_CLOCKWISE : CLOCKWISE;
   stepCount = 0;
   stepIntervalCount = STEP_DELAY;
 

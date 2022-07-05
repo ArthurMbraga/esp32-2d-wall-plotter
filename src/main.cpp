@@ -36,19 +36,26 @@ void updateCanvas()
     {
       int time1 = motor1->move(move[0]);
       int time2 = motor2->move(move[1]);
-
+      Serial.print("move0: ");
+      Serial.println(move[0]);
+      Serial.print("move1: ");
+      Serial.println(move[1]);
       countTarget = time1 > time2 ? time1 : time2;
+      Serial.print("countTarget: ");
+      Serial.println(countTarget);
     }
   }
 }
 
 void setup()
 {
+  Serial.begin(9600); // opens serial port, sets data rate to 115200 bps
+
   motor1 = new Stepper(13, 12, 14, 27);
   motor2 = new Stepper(15, 2, 4, 5);
 
-  canvas = new Canvas(50, 50);
-  canvas->draw({5, 2});
+  canvas = new Canvas(45, 57);
+  canvas->draw({25, 27});
 }
 
 void loop()
