@@ -5,6 +5,7 @@
     "istream": "cpp",
     "limits": "cpp",
     "streambuf": "cpp",
-    "*.tcc": "cpp"
+    "*.tcc": "cpp",
+    "ostream": "cpp"
   }
 }

@@ -22,7 +22,7 @@ private:
   // 0 = AB, 1 = BC, 2 = CD, 3 = DA
   int currentCoilCombination = 0;
   // 1 = CLOCKWISE, -1 = COUNTER_CLOCKWISE
-  int direction = 0;
+  int currentDirection = 0;
 
   // 1 = DEFAULT, -1 = INVERTED_ROTATION
   int directionInverter = 1;

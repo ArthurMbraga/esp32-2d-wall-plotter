@@ -1,10 +1,6 @@
 #ifndef Canvas_h
 #define Canvas_h
 
-
-#define CANVA_HEIGHT 70
-#define CANVA_WIDTH 108
-
 // #define CANVA_RES 0.0141421
 #define CANVA_RES 1.41421
 #define CANVA_MAX_SIZE 1000
@@ -21,10 +17,11 @@ typedef struct Lengths
 	double b;
 } Lenghts;
 
-
 class Canvas
 {
 private:
+	double height;
+	double width;
 	int it = 0;
 	int size = 0;
 
@@ -33,10 +30,15 @@ private:
 
 	Point position;
 
+	int currentAngle = 0;
+
 public:
-	Canvas(double x, double y) : position(Point{x, y}) {}
+	Lengths pointToLengths(Point p);
+	Canvas(double w, double h) : width(w), height(h){};
+	void setPosition(Point position);
 	void draw(Point target);
 	bool nextMove(double move[2]);
+	Lengths getCircleLengths(Point center, double radius, double angle);
 };
 
 #endif

@@ -23,7 +23,7 @@ void Stepper::move(double length)
 {
   double angle = length2deg(length);
   stepCountTarget = deg2step(angle);
-  direction = length > 0 ? COUNTER_CLOCKWISE : CLOCKWISE;
+  currentDirection = length > 0 ? COUNTER_CLOCKWISE : CLOCKWISE;
   stepCount = 0;
   stepIntervalCount = STEP_DELAY;
 }
@@ -31,7 +31,7 @@ void Stepper::move(double length)
 int Stepper::rotate(double angle)
 {
   stepCountTarget = deg2step(angle);
-  direction = angle > 0 ? COUNTER_CLOCKWISE : CLOCKWISE;
+  currentDirection = angle > 0 ? COUNTER_CLOCKWISE : CLOCKWISE;
   stepCount = 0;
   stepIntervalCount = STEP_DELAY;
 
@@ -87,7 +87,7 @@ void Stepper::changeCoilCombination()
     digitalWrite(PIN_D, LOW);
     break;
   }
-  currentCoilCombination += direction * directionInverter;
+  currentCoilCombination += currentDirection * directionInverter;
 
   if (currentCoilCombination > 3)
     currentCoilCombination = 0;
